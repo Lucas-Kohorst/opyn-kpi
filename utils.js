@@ -1,32 +1,33 @@
 // Import modules
 const Web3 = require('web3');
+require("dotenv").config();
 
 // connect to Infura
-const rpcUrl = "https://mainnet.infura.io/v3/dda00ce84ed2407981030b691bb32e37";
+const rpcUrl = process.env.ENDPOINT;
 const web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
 
 // init contract object
-exports.initContract = async (abi, address) => {
+exports.initContract = async(abi, address) => {
     return new web3.eth.Contract(abi, address);
 }
 
 // get token total supply
-exports.getTotalSupply = async (token) => {
+exports.getTotalSupply = async(token) => {
     return await token.methods.totalSupply().call();
 }
 
 // get address balance of a specific token
-exports.getBalance = async (token, holder) => {
+exports.getBalance = async(token, holder) => {
     return await token.methods.balanceOf(holder).call();
 }
 
 // get token decimals
-exports.getDecimals = async (token) => {
+exports.getDecimals = async(token) => {
     return await token.methods.decimals().call();
 }
 
 // get ETH/USD price
-exports.getMakerEthUsd = async (maker) => {
+exports.getMakerEthUsd = async(maker) => {
     return web3.utils.hexToNumberString(await maker.methods.read().call());
 }
 
